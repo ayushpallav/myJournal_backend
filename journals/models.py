@@ -19,7 +19,17 @@ class Profile(models.Model):
         User,
         on_delete=models.CASCADE
     )
-    email_id = models.EmailField(max_length=254)
+    primary_cell = models.CharField(
+        max_length=10,
+        null=True
+    )
+    profile_pic = models.ImageField(
+        upload_to='profile_pic',
+        blank=True
+    )
+
+    def __str__(self):
+        return self.user.username
 
 
 class Journal(models.Model):
