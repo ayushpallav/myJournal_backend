@@ -12,9 +12,3 @@ services:
                         - "8000:8000"
                 depends_on:
                         - db
-        elasticsearch:
-                image: elasticsearch:7.5.1
-        logstash:
-                image: logstash:7.5.1
-        kibana:
-                image: kibana:7.5.1
