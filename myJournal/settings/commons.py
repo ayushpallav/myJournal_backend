@@ -33,7 +33,8 @@ class Settings(Configuration):
         'django.contrib.sessions',
         'django.contrib.messages',
         'django.contrib.staticfiles',
-        'journals'
+        'rest_framework',
+        'journals',
     ]
 
     MIDDLEWARE = [
