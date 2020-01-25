@@ -50,9 +50,18 @@ class Entry(models.Model):
     """
     date = models.DateTimeField()
     entries = JSONField(
-        help_text="key value pair (time, entry) for each day"
+        help_text="key value pair (time, entry) for each day",
+        default=dict
     )
     journal = models.ForeignKey(
         Journal,
         on_delete=models.DO_NOTHING
     )
+
+    class Meta:
+        unique_together = ('date', 'journal')
+
+    def add_entry(self, entry):
+        """Add a new entry"""
+        self.entries.update(entry)
+        self.save()

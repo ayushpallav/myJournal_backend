@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from journals.models import Profile
+from journals.models import Profile, Entry, Journal
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -27,3 +27,39 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = "__all__"
+
+
+
+class JournalEntrySerializer(serializers.Serializer):
+    """
+    Serializer to make a new journal entry
+    """
+    entry = serializers.CharField()
+    user = serializers.IntegerField()
+    datestamp = serializers.DateField()
+    timestamp = serializers.TimeField()
+
+    def create(self, validated_data):
+        """
+        Make a new journal entry
+        
+        If a row is present in Entry model for given user and date, add a new entry into the json entry
+        as a key value pair {timestamp}:{entry}
+
+        If no row is present for user and date, add a new row and add the json entry
+        """
+        user, entry, datestamp, timestamp = validated_data['user'], validated_data['entry'],\
+                                            validated_data['datestamp'], validated_data['timestamp']
+        profile = Profile.objects.filter(user_id=user).first()
+        journal = Journal.objects.filter(profile_id=profile.id).first()
+        if not journal:
+            journal = Journal.objects.create(profile=profile)
+        entry_obj, created = Entry.objects.get_or_create(
+            date=datestamp,
+            journal=journal,
+        )
+        entry = {
+            str(timestamp): entry
+        }
+        entry_obj.add_entry(entry)
+        return validated_data

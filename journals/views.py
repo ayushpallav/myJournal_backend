@@ -1,4 +1,5 @@
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.generics import CreateAPIView
 from django.urls import reverse
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
@@ -6,13 +7,18 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 
 from journals.forms import UserForm,UserProfileInfoForm
-from journals.serializers import ProfileSerializer
-from journals.models import Profile
+from journals.serializers import ProfileSerializer, JournalEntrySerializer
+from journals.models import Profile, Journal
 
 
 class ProfileView(ModelViewSet):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
+
+
+class JournalEntryView(CreateAPIView):
+    serializer_class = JournalEntrySerializer
+
 
 def index(request):
     return render(request,'index.html')
@@ -35,15 +41,19 @@ def register(request):
         user_form = UserForm(data=request.POST)
         profile_form = UserProfileInfoForm(data=request.POST)
         if user_form.is_valid() and profile_form.is_valid():
+            # Create a new user
             user = user_form.save()
             user.set_password(user.password)
             user.save()
             profile = profile_form.save(commit=False)
+            # Create a new profile
             profile.user = user
             if 'profile_pic' in request.FILES:
                 print('profile pic present')
                 profile.profile_pic = request.FILES['profile_pic']
             profile.save()
+            # Create a new journal for the new registered user
+            Journal.objects.create(profile=profile)
             registered = True
         else:
             print(user_form.errors,profile_form.errors)
