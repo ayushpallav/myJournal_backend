@@ -34,7 +34,7 @@ def register(request):
             profile = profile_form.save(commit=False)
             profile.user = user
             if 'profile_pic' in request.FILES:
-                print('found it')
+                print('profile pic present')
                 profile.profile_pic = request.FILES['profile_pic']
             profile.save()
             registered = True
