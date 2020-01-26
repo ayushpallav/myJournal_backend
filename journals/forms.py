@@ -6,7 +6,7 @@ from journals.models import Profile
 
 
 class UserForm(forms.ModelForm):
-	password = forms.CharField()
+	password = forms.CharField(widget=forms.PasswordInput)
 	class Meta:
 		model = User
 		fields = (
