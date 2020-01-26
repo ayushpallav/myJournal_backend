@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import CreateAPIView
 from django.urls import reverse
@@ -9,7 +11,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from journals.forms import UserForm,UserProfileInfoForm
 from journals.serializers import ProfileSerializer, JournalEntrySerializer
-from journals.models import Profile, Journal
+from journals.models import Profile, Journal, Entry
 
 
 class ProfileView(LoginRequiredMixin, ModelViewSet):
@@ -34,7 +36,14 @@ class JournalEntryView(LoginRequiredMixin, CreateAPIView):
 
 
 def index(request):
-    return render(request,'index.html')
+    journal = Journal.objects.filter(profile__user__username=request.user.username).first()
+    entry = Entry.objects.filter(journal=journal, date=str(datetime.now().date())).first()
+    return render(
+        request,'index.html',
+        {
+            'entry': entry
+        }
+    )
 
 
 @login_required
