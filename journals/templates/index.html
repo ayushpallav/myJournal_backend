@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 {% block body_block %}
   <div class="container">
     <div class="jumbotron">
@@ -13,6 +14,14 @@
 			          <input type="text" name="entry" placeholder="Wassup !">
 			<input type="submit" name="" value="Submit">
 			</form>
+				<div class="jumbotron">
+					{% if entry %}
+					    {{entry.date}} <br> <br>
+					    {% for time, record in entry.entries.items %}
+						    {{time}} : {{record}} <br>
+					    {% endfor %}
+					{% endif %}
+				</div>
 			</div>
 			  </div>
     	{% endif %}
