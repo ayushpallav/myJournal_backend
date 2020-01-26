@@ -6,6 +6,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 from django.contrib.postgres.fields import JSONField
+from django.core.validators import RegexValidator
 
 from django.conf import settings
 
@@ -20,8 +21,8 @@ class Profile(models.Model):
         on_delete=models.CASCADE
     )
     primary_cell = models.CharField(
+        RegexValidator(regex='^.{10}$', message='Length has to be 10', code='nomatch'),
         max_length=10,
-        null=True
     )
     profile_pic = models.ImageField(
         upload_to='profile_pic',
