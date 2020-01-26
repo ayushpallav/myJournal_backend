@@ -10,8 +10,7 @@
 			<form method="post" action="{% url 'journals:entry' %}">
 			          {% csrf_token %}
 			          {# Ask for journal entry #}
-			          <label for="Journal entry">Entry:</label>
-			          <input type="text" name="entry" placeholder="Wassup !">
+			          {{ entry_form }}
 			<input type="submit" name="" value="Submit">
 			</form>
 				<div class="jumbotron">

@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from journals.forms import UserForm,UserProfileInfoForm
+from journals.forms import UserForm,UserProfileInfoForm, MakeEntryForm
 from journals.serializers import ProfileSerializer, JournalEntrySerializer
 from journals.models import Profile, Journal, Entry
 
@@ -43,6 +43,7 @@ def index(request):
     return render(
         request,'index.html',
         {
+            'entry_form': MakeEntryForm(),
             'entry': entry
         }
     )

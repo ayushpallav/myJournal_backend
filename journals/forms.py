@@ -1,6 +1,7 @@
 from django import forms
 
 from django.contrib.auth.models import User
+from django.core.validators import RegexValidator
 
 from journals.models import Profile
 
@@ -25,3 +26,7 @@ class UserProfileInfoForm(forms.ModelForm):
 			'primary_cell',
 			'profile_pic'
 		)
+
+
+class MakeEntryForm(forms.Form):
+	entry = forms.CharField()
