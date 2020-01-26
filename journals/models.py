@@ -38,7 +38,7 @@ class Journal(models.Model):
     """
     profile = models.OneToOneField(
         Profile,
-        on_delete=models.DO_NOTHING
+        on_delete=models.CASCADE
     )
 
 
@@ -55,7 +55,7 @@ class Entry(models.Model):
     )
     journal = models.ForeignKey(
         Journal,
-        on_delete=models.DO_NOTHING
+        on_delete=models.CASCADE
     )
 
     class Meta:
