@@ -59,7 +59,7 @@ class JournalEntrySerializer(serializers.Serializer):
             journal=journal,
         )
         entry = {
-            str(datetimestamp.time()): entry
+            str(datetimestamp.time().strftime("%H:%M")): entry
         }
         entry_obj.add_entry(entry)
         return validated_data
