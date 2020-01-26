@@ -16,9 +16,9 @@
 			</form>
 				<div class="jumbotron">
 					{% if entry %}
-					    {{entry.date}} <br> <br>
+					    <b> <h3> {{entry.date}} </h3> </b> <br> <br>
 					    {% for time, record in entry.entries.items %}
-						    {{time}} : {{record}} <br>
+						    <u> {{time}} </u> : {{record}} <br>
 					    {% endfor %}
 					{% endif %}
 				</div>
