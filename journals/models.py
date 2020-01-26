@@ -21,7 +21,7 @@ class Profile(models.Model):
         on_delete=models.CASCADE
     )
     primary_cell = models.CharField(
-        RegexValidator(regex='^.{10}$', message='Length has to be 10', code='nomatch'),
+        validators=[RegexValidator(regex='^.{10}$', message='Length has to be 10', code='nomatch')],
         max_length=10,
     )
     profile_pic = models.ImageField(
