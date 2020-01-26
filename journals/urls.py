@@ -12,7 +12,7 @@ Profilerouter.register(r'profile', views.ProfileView)
 
 urlpatterns=[
 	path('', include(Profilerouter.urls)),
-    url(r'^register/$',views.register,name='register'),
-    url(r'^user_login/$',views.user_login,name='user_login'),
-    path('entry/', views.JournalEntryView.as_view())
+    url(r'^register/$',views.register, name='register'),
+    url(r'^user_login/$',views.user_login, name='user_login'),
+    path('entry/', views.JournalEntryView.as_view(), name='entry')
 ]

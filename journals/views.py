@@ -5,19 +5,32 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from journals.forms import UserForm,UserProfileInfoForm
 from journals.serializers import ProfileSerializer, JournalEntrySerializer
 from journals.models import Profile, Journal
 
 
-class ProfileView(ModelViewSet):
+class ProfileView(LoginRequiredMixin, ModelViewSet):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.filter(user__username=self.request.user)
+        return qs
 
-class JournalEntryView(CreateAPIView):
+
+class JournalEntryView(LoginRequiredMixin, CreateAPIView):
     serializer_class = JournalEntrySerializer
+
+    def get_serializer_context(self):
+        return {'user': self.request.user.username}
+
+    def post(self, request, **kwargs):
+        super().post(request, kwargs)
+        return HttpResponseRedirect(reverse('index'))
 
 
 def index(request):

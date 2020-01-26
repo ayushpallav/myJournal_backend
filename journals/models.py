@@ -48,7 +48,7 @@ class Entry(models.Model):
     A new entry is to be made every day
     Each 'daily entry' will contain key value pair of time and entry
     """
-    date = models.DateTimeField()
+    date = models.DateField()
     entries = JSONField(
         help_text="key value pair (time, entry) for each day",
         default=dict
