@@ -31,6 +31,8 @@ class JournalEntryView(LoginRequiredMixin, CreateAPIView):
         return {'user': self.request.user.username}
 
     def post(self, request, **kwargs):
+        if not request.POST.__dict__.get('entry'):
+            return HttpResponseRedirect(reverse('index'))
         super().post(request, kwargs)
         return HttpResponseRedirect(reverse('index'))
 
