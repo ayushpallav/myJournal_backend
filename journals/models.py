@@ -66,3 +66,20 @@ class Entry(models.Model):
         """Add a new entry"""
         self.entries.update(entry)
         self.save()
+
+
+class Todo(models.Model):
+    """
+    Model to maintain todo's of users
+    keeps record of when a todo was added and
+    when was it completed
+    also active and inactive todos
+    """
+    profile = models.OneToOneField(
+        Profile,
+        on_delete=models.CASCADE
+    )
+    todo = JSONField(
+        help_text="Maintains list of active and inactive todos",
+        default=dict
+    )

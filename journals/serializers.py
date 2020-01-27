@@ -2,7 +2,7 @@ from datetime import datetime
 
 from rest_framework import serializers
 
-from journals.models import Profile, Entry, Journal
+from journals.models import Profile, Entry, Journal, Todo
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -63,3 +63,40 @@ class JournalEntrySerializer(serializers.Serializer):
         }
         entry_obj.add_entry(entry)
         return validated_data
+
+
+class TodoSingleEntrySerializer(serializers.Serializer):
+    """
+    Serializer for a single intry in todo list for
+    a user
+    """
+    timestamp = serializers.ListField(
+        child=serializers.DateTimeField()
+    )
+    todo = serializers.CharField()
+
+
+class TodoListField(serializers.ListField):
+    """
+    Todo list field for active and inactive todo-list
+    """
+    entry = TodoSingleEntrySerializer()
+
+
+class TodoEntrySerializer(serializers.Serializer):
+    """
+    Serializer for a todo entry of a user
+    """
+    active = TodoListField()
+    inactive = TodoListField()
+
+
+class TodoSerializer(serializers.ModelSerializer):
+    """
+    Serializer for making todos
+    """
+    todo = TodoEntrySerializer()
+
+    class Meta:
+        model = Todo
+        fields = '__all__'
