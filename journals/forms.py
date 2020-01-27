@@ -29,4 +29,4 @@ class UserProfileInfoForm(forms.ModelForm):
 
 
 class MakeEntryForm(forms.Form):
-	entry = forms.CharField()
+	entry = forms.CharField(widget=forms.Textarea(attrs={'cols': 100, 'rows': 5}))
