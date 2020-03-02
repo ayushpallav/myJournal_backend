@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block body_block %}
+  <div class="container">
+    <div class="jumbotron">
+    	{% if not user.is_authenticated %}
+		    <h1>Login / Register to start Journaling!</h1>
+    	{% else %}
+	    	<h2> Wassup {{ user.first_name }} !</h2>
+			<form method="post" action="{% url 'journals:entry' %}">
+			          {% csrf_token %}
+			          {# Ask for journal entry #}
+			          {{ entry_form }}
+			<input type="submit" name="" value="Submit">
+			</form>
+				<div class="jumbotron">
+					{% if entry %}
+					    <b> <h3> {{entry.date}} </h3> </b> <br> <br>
+					    {% for time, record in entry.entries.items %}
+						    <u> {{time}} </u> : {{record}} <br>
+					    {% endfor %}
+					{% endif %}
+				</div>
+			</div>
+			  </div>
+    	{% endif %}
+{% endblock %}

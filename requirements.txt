@@ -1,0 +1,7 @@
+Django>=2.0,<3.0
+djangorestframework==3.9.2
+psycopg2>=2.7,<3.0
+python-dotenv
+django-configurations==2.1
+Pillow==3.0.0
+ipython
